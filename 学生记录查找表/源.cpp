@@ -1,3 +1,4 @@
+//Êä³öÎ»ĞòÉè´Ó1¿ªÊ¼
 #include <iostream>
 #include<string>
 #include<fstream>
@@ -128,7 +129,7 @@ void STUDENT::FILE_INITE()//´ÓÎÄ¼şÖĞµ¼Èë³õÊ¼Êı¾İ
 		OpenFile.open(filename);
 		for (stuCnt = 0; OpenFile >> ORDER; stuCnt++)
 		{
-			STU_NODE* stuptr = new STU_NODE;
+			STU_NODE* stuptr = new STU_NODE;//±ØĞëÓÃnewºÍdelete£¬ÒòÎªÓÃÁËstringÀàĞÍµÄ£¬Èç¹ûÓÃmallocºÍfree»á³åÍ»±¨´í
 			if (stuptr != NULL)
 			{
 				stuptr->data.order = ORDER;
@@ -150,15 +151,6 @@ void STUDENT::FILE_INITE()//´ÓÎÄ¼şÖĞµ¼Èë³õÊ¼Êı¾İ
 			}
 		}
 		OpenFile.close();
-		//²âÊÔÊä³ö
-		cout << endl;
-		STU_NODE*ptr=headptr->nextnode;
-		while (ptr != headptr)
-		{
-			cout << ptr->data.order << " " << ptr->data.name << " " << ptr->data.grade << endl;
-			ptr = ptr->nextnode;
-		}
-		cout << endl;
 	}
 	else {
 		cout << "ÉêÇëÍ·½áµã¿Õ¼äÊ§°Ü£¡" << endl;
@@ -166,10 +158,13 @@ void STUDENT::FILE_INITE()//´ÓÎÄ¼şÖĞµ¼Èë³õÊ¼Êı¾İ
 	cout << "µ¼Èë½áÊø£¡" << endl << endl;
 }
 	
-void STUDENT::QuickSort()//¶ÔÑ§Éú¼ÇÂ¼²éÕÒ±í£¨Ë«ÏòÁ´±íĞÎÊ½£©½øĞĞ¿ìËÙÅÅĞò//¿¨ÔÚÅÅĞòÁË£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿£¿
+void STUDENT::QuickSort()//¶ÔÑ§Éú¼ÇÂ¼²éÕÒ±í£¨Ë«ÏòÁ´±íĞÎÊ½£©½øĞĞ¿ìËÙÅÅĞò
 {
+	QSort(headptr, headptr, headptr);
+	cout << "¿ìËÙÅÅĞò½áÊø£¡" << endl<<endl;
+
 	//²âÊÔÊä³ö
-	cout << endl;
+	cout << endl<<"ÅÅĞòºóÈçÏÂ£º"<<endl;
 	STU_NODE*sptr = headptr->nextnode;
 	while (sptr != headptr)
 	{
@@ -177,36 +172,15 @@ void STUDENT::QuickSort()//¶ÔÑ§Éú¼ÇÂ¼²éÕÒ±í£¨Ë«ÏòÁ´±íĞÎÊ½£©½øĞĞ¿ìËÙÅÅĞò//¿¨ÔÚÅÅĞ
 		sptr = sptr->nextnode;
 	}
 	cout << endl;
-
-	QSort(headptr, headptr->nextnode, headptr->prenode);
-	cout << "¿ìËÙÅÅĞò½áÊø£¡" << endl<<endl;
 }
 void STUDENT::SaveToSeqList()//½«ÅÅĞòºÃµÄÊı¾İ×ª´æµ½Ë³Ğò±íÖĞ
 {
-	//²âÊÔÊä³ö
-	cout << endl;
-	STU_NODE*sptr = headptr->nextnode;
-	while (sptr != headptr)
-	{
-		cout << sptr->data.order << " " << sptr->data.name << " " << sptr->data.grade << endl;
-		sptr = sptr->nextnode;
-	}
-	cout << endl;
-
 	STU_NODE*ptr = headptr->nextnode;
 	for (int i=0; ptr != headptr; ptr = ptr->nextnode,i++)
 	{
 		seqList[i] = ptr->data;
 	}
 	cout << "ÒÑ¾­³É¹¦×ª´æµ½Ë³Ğò±íÖĞ!" << endl<<endl;
-
-	//²âÊÔÊä³ö
-	cout << "stuCnt:" << stuCnt << endl;
-	for (int i = 0; i < stuCnt; i++)
-	{
-		cout << seqList[i].order << " " << seqList[i].name << " " << seqList[i].grade << endl;
-	}
-	cout << endl;
 }
 void STUDENT::Search_Bin()//»ùÓÚÕÛ°ë²éÕÒµÄËã·¨¶ÔÖ¸¶¨³É¼¨µÄ¼ÇÂ¼½øĞĞ²éÑ¯
 {
@@ -220,39 +194,32 @@ void STUDENT::Search_Bin()//»ùÓÚÕÛ°ë²éÕÒµÄËã·¨¶ÔÖ¸¶¨³É¼¨µÄ¼ÇÂ¼½øĞĞ²éÑ¯
 		cin >> keyGrade;
 		int low = 0, high = stuCnt - 1;
 		int mid,flag=0;
-		while (low <= high&&flag==0)//ĞèÒª¸ÄÎªµİ¹é£¬ÒòÎª³É¼¨²»ÊÇµÚÒ»¹Ø¼ü×Ö£¬¿ÉÄÜÓĞÏàÍ¬³É¼¨µÄ//Ò²²»ÓÃ£¬ÅÅºÃĞòÁË
+		while (low <= high&&flag==0)
 		{
 			mid = (low + high) / 2;
 			if (keyGrade == seqList[mid].grade)
 			{
-				cout << "ĞÕÃû£º" << seqList[mid].name << endl;
-				cout << "Ñ§ºÅ£º" << seqList[mid].order << endl;
-				cout << "Êı¾İ½á¹¹¿Î³Ì³É¼¨£º" << seqList[mid].grade << endl;
-				cout << "¸ÃÍ¬Ñ§µÄÊı¾İ½á¹¹³É¼¨ÅÅÃûµÚ" << stuCnt-mid<<",¼´ÔÚÓĞĞòĞòÁĞÖĞÎ»Ğò£º"<<mid+1<<endl<<endl;
 				flag = 1;
-				for (int i = mid-1, sameflag = 0; i >= 0 && sameflag == 0; i--)
+				//¼ì²éÏàÍ¬·ÖÊıµÄÇé¿ö
+				int i,sameflag=0;
+				for (i = mid + 1, sameflag = 0; i <stuCnt && sameflag == 0; i++)
 				{
-					if (seqList[i].grade == keyGrade)
-					{
-						cout << "ĞÕÃû£º" << seqList[i].name << endl;
-						cout << "Ñ§ºÅ£º" << seqList[i].order << endl;
-						cout << "Êı¾İ½á¹¹¿Î³Ì³É¼¨£º" << seqList[i].grade << endl;
-						cout << "¸ÃÍ¬Ñ§µÄÊı¾İ½á¹¹³É¼¨ÅÅÃûµÚ" << (stuCnt-i) <<",¼´ÔÚĞòÁĞĞòÁĞÖĞÎ»Ğò£º"<<(i+1)<< endl << endl;
-					}
-					else
+					if (seqList[i].grade != keyGrade)
 						sameflag = 1;
 				}
-				for (int i = mid + 1, sameflag = 0; i <stuCnt && sameflag == 0; i++)
+				int mark = i - 2;
+				for (i = mid - 1, sameflag = 0; i > 0 && sameflag == 0; i--)
 				{
-					if (seqList[i].grade == keyGrade)
-					{
-						cout << "ĞÕÃû£º" << seqList[i].name << endl;
-						cout << "Ñ§ºÅ£º" << seqList[i].order << endl;
-						cout << "Êı¾İ½á¹¹¿Î³Ì³É¼¨£º" << seqList[i].grade << endl;
-						cout << "¸ÃÍ¬Ñ§µÄÊı¾İ½á¹¹³É¼¨ÅÅÃûµÚ" << (stuCnt - i) << ",¼´ÔÚĞòÁĞĞòÁĞÖĞÎ»Ğò£º" << (i + 1) << endl << endl;
-					}
-					else
+					if (seqList[i].grade != keyGrade)
 						sameflag = 1;
+				}
+				int j=i+2 ;
+				for (sameflag = 0, j = i + 2; sameflag == 0 && j <= mark; j++)
+				{
+					cout << "ĞÕÃû£º" << seqList[j].name << endl;
+					cout << "Ñ§ºÅ£º" << seqList[j].order << endl;
+					cout << "Êı¾İ½á¹¹¿Î³Ì³É¼¨£º" << seqList[j].grade << endl;
+					cout << "¸ÃÍ¬Ñ§µÄÊı¾İ½á¹¹³É¼¨ÅÅÃûµÚ" << stuCnt - mark << ",¼´ÔÚÓĞĞòĞòÁĞÖĞÎ»Ğò£º" << j+1 << endl << endl;
 				}
 			}
 			else if (keyGrade < seqList[mid].grade)
@@ -287,29 +254,34 @@ void STUDENT::Free()//ÊÍ·ÅÁ´±í½áµã¿Õ¼ä
 }
 void STUDENT::QSort(STU_NODE* H, STU_NODE* headnode, STU_NODE* tailnode)//¶ÔÁ´±íHÖĞµÄheadnodeµ½tailnodeÖ®¼äµÄÑ§Éú¼ÇÂ¼½øĞĞ¿ìĞòÅÅĞò
 {
-	if (headnode != tailnode)
-	{
+	//if (headnode != tailnode)//Õâ¸öÌõ¼şµ¼ÖÂÎÒ¸Õ¿ªÊ¼¾Í²»Âú×ã£¬ËùÒÔÊ²Ã´¶¼Ã»·¢Éú¡£¡£¡£ÎŞÓÃ
+	//{
 		STU_NODE* pivotptr = Partition(H, headnode, tailnode);//Ò»ÌË¿ìËÙÅÅĞòµÃµ½ÊàÖáÎ»ÖÃ,ÔÙ·Ö½âÎªÈçÏÂ¶ÔÊàÖáÇ°ºÍÊàÖáºóµÄ¿ìËÙÅÅĞò
-		if(pivotptr!=headnode&&pivotptr!=headnode->nextnode)
-			QSort(H, headnode, pivotptr->prenode);
-		if(pivotptr!=tailnode&&pivotptr!=tailnode->prenode)
-			QSort(H, pivotptr->nextnode, tailnode);
-	}
+		if(pivotptr->prenode!=headnode&&pivotptr->prenode->prenode!=headnode)
+			QSort(H, headnode, pivotptr);
+		if(pivotptr->nextnode!=tailnode&&pivotptr->nextnode->nextnode!=tailnode)
+			QSort(H, pivotptr, tailnode);
+	//}
 }
 STU_NODE* STUDENT::Partition(STU_NODE* H, STU_NODE* headnode, STU_NODE* tailnode)//½øĞĞÒ»ÌË¿ìËÙÅÅĞò,·µ»ØÊàÖáÎ»ÖÃ
 {
-	double pivotkey = headnode->data.grade;
-	STU_NODE*ptr=headnode->nextnode;
-	while (ptr != tailnode->nextnode)
+	double pivotkey = headnode->nextnode->data.grade;
+	STU_NODE*ptr=headnode->nextnode->nextnode;
+	STU_NODE*resultptr = headnode->nextnode;
+	//int compareCnt = 0;
+	while (ptr != tailnode)
 	{
-		if (ptr->data.grade < pivotkey)
+		if (ptr->data.grade < pivotkey)//±ÈÊàÖáĞ¡µÄµÄ¾Í²åµ½ÊàÖáÇ°Ò»¸öµÄÎ»ÖÃ
 		{
+			//compareCnt++;
+			//if (compareCnt == 1)
+			//	resultptr = ptr;
 			STU_NODE*tempre = ptr->prenode;
 			STU_NODE*tempnext = ptr->nextnode;
-			ptr->nextnode = headnode;
-			ptr->prenode = headnode->prenode;
-			headnode->prenode->nextnode = ptr;
-			headnode->prenode = ptr;
+			ptr->nextnode = resultptr;
+			ptr->prenode = resultptr->prenode;
+			resultptr->prenode->nextnode = ptr;
+			resultptr->prenode = ptr;
 			tempre->nextnode = tempnext;
 			tempnext->prenode = tempre;
 			ptr = tempnext;
@@ -319,18 +291,29 @@ STU_NODE* STUDENT::Partition(STU_NODE* H, STU_NODE* headnode, STU_NODE* tailnode
 			ptr = ptr->nextnode;
 		}
 	}
-	return headnode;
+
+	//²âÊÔÊä³ö
+/*	cout << endl<<"Ò»"<<endl;
+	STU_NODE*sptr = headptr->nextnode;
+	while (sptr != headptr)
+	{
+		cout << sptr->data.order << " " << sptr->data.name << " " << sptr->data.grade << endl;
+		sptr = sptr->nextnode;
+	}
+	cout << endl;*/
+
+	return resultptr;
 }
 
 int main()
 {
 	STUDENT students;
-	//students.INITE();
-	students.FILE_INITE();
-	students.QuickSort();
-	students.SaveToSeqList();
-	students.Search_Bin();
-	students.Free();
+	//students.INITE();//ÃüÁîĞĞÊÖ¹¤ÊäÈë³õÊ¼Êı¾İ
+	students.FILE_INITE();//´ÓÎÄ¼şµ¼Èë³õÊ¼Êı¾İ,´æÔÚ¡°data.txt¡±ÖĞ
+	students.QuickSort();//¿ìËÙÅÅĞò
+	students.SaveToSeqList();//½«ÅÅºÃĞòµÄÊı¾İ´æ´¢µ½Ë³Ğò±íÖĞ
+	students.Search_Bin();//¶ş·Ö²éÕÒ·¨Í¨¹ı³É¼¨²éÑ§Éú¼ÇÂ¼
+	students.Free();//ÊÍ·ÅÁ´±í½áµã¿Õ¼ä
 
 	return 0;
 }
