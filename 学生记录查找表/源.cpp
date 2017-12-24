@@ -143,7 +143,7 @@ void STUDENT::FILE_INITE()//从文件中导入初始数据
 				headptr->prenode->nextnode = stuptr;
 				headptr->prenode = stuptr;
 				//测试输出
-				cout << stuptr->data.order <<" " <<stuptr->data.name <<" "<< stuptr->data.grade << endl;
+				//cout << stuptr->data.order <<" " <<stuptr->data.name <<" "<< stuptr->data.grade << endl;
 			}
 			else
 			{
@@ -155,16 +155,25 @@ void STUDENT::FILE_INITE()//从文件中导入初始数据
 	else {
 		cout << "申请头结点空间失败！" << endl;
 	}
-	cout << "导入结束！" << endl << endl;
+	cout << "导入结束！" << endl ;
+	//测试输出
+	cout <<  "导入数据如下：" << endl;
+	STU_NODE*sptr = headptr->nextnode;
+	while (sptr != headptr)
+	{
+		cout << sptr->data.order << " " << sptr->data.name << " " << sptr->data.grade << endl;
+		sptr = sptr->nextnode;
+	}
+	cout << endl;
 }
 	
 void STUDENT::QuickSort()//对学生记录查找表（双向链表形式）进行快速排序
 {
 	QSort(headptr, headptr, headptr);
-	cout << "快速排序结束！" << endl<<endl;
+	cout << "快速排序结束！" << endl;
 
 	//测试输出
-	cout << endl<<"排序后如下："<<endl;
+	cout <<"排序后如下："<<endl;
 	STU_NODE*sptr = headptr->nextnode;
 	while (sptr != headptr)
 	{
@@ -201,20 +210,19 @@ void STUDENT::Search_Bin()//基于折半查找的算法对指定成绩的记录进行查询
 			{
 				flag = 1;
 				//检查相同分数的情况
-				int i,sameflag=0;
-				for (i = mid + 1, sameflag = 0; i <stuCnt && sameflag == 0; i++)
+				int i;
+				//注意这两个循环如果初始条件改为i=mid+1，i=mid-1，则首尾两个元素回无法输出
+				for (i = mid ; i <stuCnt && seqList[i].grade == keyGrade ;i++)
 				{
-					if (seqList[i].grade != keyGrade)
-						sameflag = 1;
+
 				}
-				int mark = i - 2;
-				for (i = mid - 1, sameflag = 0; i > 0 && sameflag == 0; i--)
+				int mark = i - 1;
+				for (i = mid ; i >= 0  && seqList[i].grade == keyGrade; i--)
 				{
-					if (seqList[i].grade != keyGrade)
-						sameflag = 1;
+
 				}
-				int j=i+2 ;
-				for (sameflag = 0, j = i + 2; sameflag == 0 && j <= mark; j++)
+				int j ;
+				for ( j = i + 1; j <= mark; j++)
 				{
 					cout << "姓名：" << seqList[j].name << endl;
 					cout << "学号：" << seqList[j].order << endl;
